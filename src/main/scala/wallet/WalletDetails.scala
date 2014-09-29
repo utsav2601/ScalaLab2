@@ -9,13 +9,14 @@ class WalletDetails
 
 }
 
- class User(@BeanProperty val email1:String, @BeanProperty val password:Int)
+case class User(@BeanProperty val email:String, @BeanProperty val password:String)
 {
-var user_email = email1
+var user_email = email
 var user_password = password
-var user_id:Int = 123
+@BeanProperty var user_id:Int = 123
+
 def this()={
-    this(null,0)
+    this(null,null)
 }
 }
 
