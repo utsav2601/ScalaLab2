@@ -15,7 +15,7 @@ case class User( @BeanProperty val email:String,@BeanProperty val password:Strin
 {
 
  var user_id : String = "jjj"
-//val bank_list = MutableList[BankAccount]()
+//var bank_list = MutableList[BankAccount]()
 
 def this()={
     this(null,null)

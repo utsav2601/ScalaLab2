@@ -44,16 +44,17 @@ class DigitalWalletController {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
      var find_user : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)
     var user:User = null
-   
+     var user_bank_list = MutableList[BankAccount]()
     
  //   Check if the user already exists or not to avoid any exceptions
      if (!find_user.isEmpty)
      {
       //store the bankAccount list for the respective user in a temporary list 
-     var user_bank_list: MutableList[BankAccount] = user_bank(user_id1)	//get only the list related to the user id 
-       user_bank_list.+=(bank)
+     user_bank_list  = user_bank(user_id1)	//get only the list related to the user id 
+        user_bank_list.+=(bank)
+       
          user = find_user.head	//get the first element as there is going to be only one userid
-         user_bank += (user.user_id -> user_bank_list.slice(1, user_bank_list.length)) //map the userid with the list of bank account and ignore the first list item as it is empty
+         user_bank += (user.user_id -> user_bank_list.slice(1, user_bank_list.length))//map the userid with the list of bank account and ignore the first list item as it is empty
        
      }
      
@@ -61,7 +62,7 @@ class DigitalWalletController {
   mapper.registerModule(DefaultScalaModule)
   val out = new StringWriter
  
-  mapper.writeValue(out, user_bank(user_id1))
+  mapper.writeValue(out, user_bank)
   
  return out.toString()
     
@@ -73,10 +74,10 @@ class DigitalWalletController {
     @ResponseBody def update_user(@PathVariable user_id1: String, @RequestBody user:User ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     		
-           var find_user : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)   
-           val index = user_list.indexWhere(User => User.user_id  == user_id1)
-     var k =  find_user.flatMap(s => s.toString() )
-           return k.toString()
+           var find_user : MutableList[User] =  user_list.filter(User => User.user_id == user_id1)   
+          
+          
+           return find_user.toString()
            
            }
 
