@@ -15,12 +15,17 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import java.io.StringWriter
 import scala.Mutable
 import scala.collection.mutable.MutableList
+import scala.collection.mutable.Map
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 @RestController
 class DigitalWalletController {
    var user_list = MutableList[User]()
+  
+   var user_bank = Map[String,MutableList[User]]()
+   
+   //create user
      @RequestMapping(value = Array("/"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
      def create_user(@RequestBody user:User) : String= {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
@@ -35,15 +40,18 @@ class DigitalWalletController {
      
      }
        
-        @RequestMapping(value = Array("/users/{user_id}/bankaccount"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
-    @ResponseBody def create_bankAccount(@PathVariable user_id: String ) : String = {
+   //view user
+        @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
+    @ResponseBody def view_user(@PathVariable user_id1: String ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
-  val mapper = new ObjectMapper()
+          var x = MutableList[User]();
+          x.+=(User("xx","xx"))
+    		user_bank = Map("Sagar"->x)
+          val mapper = new ObjectMapper()
   mapper.registerModule(DefaultScalaModule)
   val out = new StringWriter
-  mapper.writeValue(out, new BankAccount(user_id))
+  mapper.writeValue(out,user_bank)
  return out.toString()
-   	
      }
        
      
