@@ -27,17 +27,14 @@ class DigitalWalletController {
    
    //create user
      @RequestMapping(value = Array("/"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
-     def create_user(@RequestBody user:User) : String= {
+   @ResponseBody  def create_user(@RequestBody user:User) : User= {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
-      
-  val mapper = new ObjectMapper()
-  mapper.registerModule(DefaultScalaModule)
-  val out = new StringWriter
-  
   user_list.+=(user)
-  mapper.writeValue(out, user)
-  
- return out.toString()
+  //create a null bank Account 
+  var bank:BankAccount = BankAccount("","","","")
+  var flag : MutableList[BankAccount] = MutableList(bank)
+  user_bank += (user.user_id -> flag)
+  return user
      
      }
        
@@ -47,20 +44,28 @@ class DigitalWalletController {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
      var flag : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)
     var user:User = null
+   
+    
+ //   Check if the user already exists or not to avoid any exceptions
      if (!flag.isEmpty)
      {
-         user = flag.head
-         user.setBankAccount(bank);
+      
+     var flag_list: MutableList[BankAccount] = user_bank(user_id1)	//get the list related to the user id 
+       flag_list.+=(bank)
+         user = flag.head	//get the first element as there is going to be only one userid
+         user_bank += (user.user_id -> flag_list) //map the userid with the list of bank account
        
      }
-    val mapper = new ObjectMapper()
-    mapper.registerModule(DefaultScalaModule)
-    val out = new StringWriter
-    mapper.writeValue(out,bank)
-    return out.toString()
+     
+   val mapper = new ObjectMapper()
+  mapper.registerModule(DefaultScalaModule)
+  val out = new StringWriter
+ 
+  mapper.writeValue(out, user_bank(user_id1))
+  
+ return out.toString()
+    
      }
-       
-     
-     
+   
 	}
 

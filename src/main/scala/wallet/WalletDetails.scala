@@ -11,27 +11,15 @@ class WalletDetails
 
 }
 
- class User(@BeanProperty val email:String, @BeanProperty val password:String)
+case class User( @BeanProperty val email:String,@BeanProperty val password:String)
 {
 
-var user_id : String = "jjj"
-private var bank_list = MutableList[BankAccount]()
+ var user_id : String = "jjj"
+//val bank_list = MutableList[BankAccount]()
 
 def this()={
     this(null,null)
 }
-    
-    def setBankAccount(bank:BankAccount) 
-    {
-    	bank_list +=  bank
-      
-    }
-    
-    def getBankAccount() : MutableList[BankAccount] =
-    {
-      return this.bank_list 
-      
-    }
    
 
 }
