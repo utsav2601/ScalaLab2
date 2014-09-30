@@ -22,8 +22,8 @@ import scala.collection.mutable.Map
 @RestController
 class DigitalWalletController {
    var user_list = MutableList[User]()
-  
-   var user_bank = Map[String,MutableList[User]]()
+   
+   var user_bank = Map[String,MutableList[BankAccount]]()
    
    //create user
      @RequestMapping(value = Array("/"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
@@ -42,16 +42,17 @@ class DigitalWalletController {
        
    //view user
         @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
-    @ResponseBody def view_user(@PathVariable user_id1: String ) : String = {
+    @ResponseBody def view_user(@PathVariable user_id1: String, @RequestBody bank:BankAccount ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
-          var x = MutableList[User]();
-          x.+=(User("xx","xx"))
-    		user_bank = Map("Sagar"->x)
-          val mapper = new ObjectMapper()
-  mapper.registerModule(DefaultScalaModule)
-  val out = new StringWriter
-  mapper.writeValue(out,user_bank)
- return out.toString()
+         var x= MutableList[BankAccount]()
+         x += bank
+    	user_bank += (user_id1->x)
+     
+    val mapper = new ObjectMapper()
+    mapper.registerModule(DefaultScalaModule)
+    val out = new StringWriter
+    mapper.writeValue(out,user_bank(user_id1))
+    return out.toString()
      }
        
      
