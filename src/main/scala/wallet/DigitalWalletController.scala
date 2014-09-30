@@ -22,7 +22,7 @@ import scala.collection.mutable.Map
 @RestController
 class DigitalWalletController {
    var user_list = MutableList[User]()
-   
+   //var bank_account_list = MutableList[BankAccount]() 
    var user_bank = Map[String,MutableList[BankAccount]]()
    
    //create user
@@ -33,6 +33,7 @@ class DigitalWalletController {
   val mapper = new ObjectMapper()
   mapper.registerModule(DefaultScalaModule)
   val out = new StringWriter
+  
   user_list.+=(user)
   mapper.writeValue(out, user_list)
   
@@ -44,14 +45,18 @@ class DigitalWalletController {
         @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
     @ResponseBody def view_user(@PathVariable user_id1: String, @RequestBody bank:BankAccount ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
-         var x= MutableList[BankAccount]()
-         x += bank
-    	user_bank += (user_id1->x)
-     
+     var flag : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)
+    var user:User = null
+     if (!flag.isEmpty)
+     {
+         user = flag.head
+         user.setBankAccount(bank);
+       
+     }
     val mapper = new ObjectMapper()
     mapper.registerModule(DefaultScalaModule)
     val out = new StringWriter
-    mapper.writeValue(out,user_bank(user_id1))
+    mapper.writeValue(out,bank)
     return out.toString()
      }
        
