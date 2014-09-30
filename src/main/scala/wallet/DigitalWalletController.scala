@@ -31,7 +31,7 @@ class DigitalWalletController {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
   user_list.+=(user)
   //create a null bank Account 
-  var bank:BankAccount = BankAccount("","","","")
+  var bank:BankAccount = BankAccount("","","","")	//create a default empty bank account 
   var flag : MutableList[BankAccount] = MutableList(bank)
   user_bank += (user.user_id -> flag)
   return user
@@ -42,18 +42,18 @@ class DigitalWalletController {
         @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
     @ResponseBody def view_user(@PathVariable user_id1: String, @RequestBody bank:BankAccount ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
-     var flag : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)
+     var find_user : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)
     var user:User = null
    
     
  //   Check if the user already exists or not to avoid any exceptions
-     if (!flag.isEmpty)
+     if (!find_user.isEmpty)
      {
-      
-     var flag_list: MutableList[BankAccount] = user_bank(user_id1)	//get the list related to the user id 
-       flag_list.+=(bank)
-         user = flag.head	//get the first element as there is going to be only one userid
-         user_bank += (user.user_id -> flag_list.slice(1, flag_list.length)) //map the userid with the list of bank account
+      //store the bankAccount list for the respective user in a temporary list 
+     var user_bank_list: MutableList[BankAccount] = user_bank(user_id1)	//get only the list related to the user id 
+       user_bank_list.+=(bank)
+         user = find_user.head	//get the first element as there is going to be only one userid
+         user_bank += (user.user_id -> user_bank_list.slice(1, user_bank_list.length)) //map the userid with the list of bank account and ignore the first list item as it is empty
        
      }
      
@@ -69,6 +69,17 @@ class DigitalWalletController {
 
         
         //Update User
+           @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.PUT), headers = Array("content-type=application/json"),consumes = Array("application/json") )
+    @ResponseBody def update_user(@PathVariable user_id1: String, @RequestBody user:User ) : String = {
+   //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
+    		
+           var find_user : MutableList[User]=  user_list.filter(User => User.user_id == user_id1)   
+           val index = user_list.indexWhere(User => User.user_id  == user_id1)
+     var k =  find_user.flatMap(s => s.toString() )
+           return k.toString()
+           
+           }
+
   
 	}
 
