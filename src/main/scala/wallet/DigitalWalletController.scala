@@ -38,7 +38,7 @@ class DigitalWalletController {
      
      }
        
-   //view user
+   //Create a Bank Account
         @RequestMapping(value = Array("/users/{user_id1}"),method=Array(RequestMethod.POST), headers = Array("content-type=application/json"),consumes = Array("application/json") )
     @ResponseBody def view_user(@PathVariable user_id1: String, @RequestBody bank:BankAccount ) : String = {
    //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
@@ -53,7 +53,7 @@ class DigitalWalletController {
      var flag_list: MutableList[BankAccount] = user_bank(user_id1)	//get the list related to the user id 
        flag_list.+=(bank)
          user = flag.head	//get the first element as there is going to be only one userid
-         user_bank += (user.user_id -> flag_list) //map the userid with the list of bank account
+         user_bank += (user.user_id -> flag_list.slice(1, flag_list.length)) //map the userid with the list of bank account
        
      }
      
@@ -66,6 +66,9 @@ class DigitalWalletController {
  return out.toString()
     
      }
-   
+
+        
+        //Update User
+  
 	}
 
