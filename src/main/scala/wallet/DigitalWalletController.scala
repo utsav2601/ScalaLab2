@@ -35,7 +35,7 @@ class DigitalWalletController {
   val out = new StringWriter
   
   user_list.+=(user)
-  mapper.writeValue(out, user_list)
+  mapper.writeValue(out, user)
   
  return out.toString()
      
