@@ -4,7 +4,7 @@ import scala.beans.BeanProperty
 import scala.Mutable
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.Map
-
+import org.scala_tools.time.Imports._
 
 class WalletDetails
 {
