@@ -32,7 +32,7 @@ var bank_autoId:Int = 40000
   var user_list = MutableList[User]()
  
   //create user
-  @RequestMapping(value = Array("/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes=Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes=Array("application/json"))
   @ResponseBody def create_user( @RequestBody user: User): String = {
     //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
 
@@ -50,7 +50,7 @@ var bank_autoId:Int = 40000
   
 
   //View User
-  @RequestMapping(value = Array("/users/{user_id1}"), method = Array(RequestMethod.GET),produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}"), method = Array(RequestMethod.GET),produces = Array("application/json"))
   @ResponseBody def view_user(@PathVariable user_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -68,7 +68,7 @@ var user1:User = null
 
   
   //Update User
-  @RequestMapping(value = Array("/users/{user_id1}"), method = Array(RequestMethod.PUT), headers = Array("content-type=application/json"), consumes = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}"), method = Array(RequestMethod.PUT), headers = Array("content-type=application/json"), consumes = Array("application/json"))
   @ResponseBody def update_user(@PathVariable user_id1: String, @RequestBody user: User): String = {
     //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
 
@@ -86,7 +86,7 @@ var user1:User = null
   
   
   //create IDCard 
-  @RequestMapping(value = Array("/users/{user_id1}/idcards"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/idcards"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def create_IdCard(@PathVariable user_id1: String, @RequestBody card: IdCard): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     card.card_id  = "c-"+ card_autoId
@@ -113,7 +113,7 @@ var user1:User = null
   
   
 //List all ID cards 
-  @RequestMapping(value = Array("/users/{user_id1}/idcards"), method = Array(RequestMethod.GET), produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/idcards"), method = Array(RequestMethod.GET), produces = Array("application/json"))
  def list_IdCard(@PathVariable user_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -135,7 +135,7 @@ var user1:User = null
   }
   
 //delete IDCard 
-  @RequestMapping(value = Array("/users/{user_id1}/idcards/{card_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/idcards/{card_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def delete_IdCard(@PathVariable user_id1: String, @PathVariable card_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -165,7 +165,7 @@ var user1:User = null
   }
 
  //create Web Login
- @RequestMapping(value = Array("/users/{user_id1}/weblogins"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+ @RequestMapping(value = Array("/api/v1/users/{user_id1}/weblogins"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def create_Weblogin(@PathVariable user_id1: String, @RequestBody web: WebLogin): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
    web.login_id = "l-"+ web_autoId
@@ -189,7 +189,7 @@ var user1:User = null
  }
     
   //List all web site logins 
-  @RequestMapping(value = Array("/users/{user_id1}/weblogins"), method = Array(RequestMethod.GET), produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/weblogins"), method = Array(RequestMethod.GET), produces = Array("application/json"))
  def list_weblogin(@PathVariable user_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -211,7 +211,7 @@ var user1:User = null
   }
   
  //delete web logins 
-  @RequestMapping(value = Array("/users/{user_id1}/weblogins/{login_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/weblogins/{login_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def delete_webLogin(@PathVariable user_id1: String, @PathVariable login_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -241,7 +241,7 @@ var user1:User = null
 
   
 //create Bank Account for a particular user
- @RequestMapping(value = Array("/users/{user_id1}/bankaccounts"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+ @RequestMapping(value = Array("/api/v1/users/{user_id1}/bankaccounts"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def create_bankAccount(@PathVariable user_id1: String, @RequestBody bank: BankAccount): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
    bank.ba_id = "b-" + bank_autoId
@@ -266,7 +266,7 @@ var user1:User = null
   }
  
  //List all the bank Accounts
- @RequestMapping(value = Array("/users/{user_id1}/bankaccounts"), method = Array(RequestMethod.GET), produces = Array("application/json"))
+ @RequestMapping(value = Array("/api/v1/users/{user_id1}/bankaccounts"), method = Array(RequestMethod.GET), produces = Array("application/json"))
  def list_bankaccount(@PathVariable user_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -287,7 +287,7 @@ var user1:User = null
 
   }
   //delete web logins 
-  @RequestMapping(value = Array("/users/{user_id1}/bankaccounts/{ba_id_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+  @RequestMapping(value = Array("/api/v1/users/{user_id1}/bankaccounts/{ba_id_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def delete_bankaccount(@PathVariable user_id1: String, @PathVariable ba_id_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
