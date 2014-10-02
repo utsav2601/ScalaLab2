@@ -1,27 +1,29 @@
 package wallet
-import scala.collection.mutable;
+import scala.collection.mutable
 import scala.beans.BeanProperty
 import scala.Mutable
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.Map
-import org.scala_tools.time.Imports._
+import java.util.Date;
 
-class WalletDetails
-{
-  
 
-}
 
-case class User( @BeanProperty var email:String,@BeanProperty var password:String)
+case class User(@BeanProperty var email:String, @BeanProperty var password:String)
 {
 
 var user_id:String = null
 var bank_list = MutableList[BankAccount]()
 var card_list = MutableList[IdCard]()
 var web_list = MutableList[WebLogin]()
-def view_user():String=
+var created_at = new Date()
+def view_user() :String=
 {
- return ( this.user_id + this.email + this.password )
+
+return """{"user_id":""" + """""""+this.user_id+"""""""+""","""+""""email":"""+"""""""+
+this.email+"""""""+""","""+ """"password":""" +"""""""+this.password+"""""""+ ""","""+
+""""created_at":""" + """""""+this.created_at+""""}"""
+
+
 }
  
 def getBankAccount():MutableList[BankAccount]=

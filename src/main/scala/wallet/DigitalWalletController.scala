@@ -16,6 +16,8 @@ import java.io.StringWriter
 import scala.Mutable
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.Map
+
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -29,24 +31,25 @@ var bank_autoId:Int = 40000
   var user_list = MutableList[User]()
  
   //create user
-  @RequestMapping(value = Array("/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"))
+  @RequestMapping(value = Array("/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"))
   @ResponseBody def create_user(@RequestBody user: User): String = {
     //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
  
   user.user_id  = "u-"+ user_autoId
  user_autoId = user_autoId+1 
   user_list.+=(user)
-    
-   val mapper = new ObjectMapper()
-    mapper.registerModule(DefaultScalaModule)
-    val out = new StringWriter
-    mapper.writeValue(out, user)
-    return out.toString()
+
+//   val mapper = new ObjectMapper()
+//    mapper.registerModule(DefaultScalaModule)
+//    val out = new StringWriter
+//    mapper.writeValue(out, user.view_user())
+//    return out.toString()
+  return user.view_user();
    
   }
 
   //View User
-  @RequestMapping(value = Array("/users/{user_id1}"), method = Array(RequestMethod.GET), headers = Array("content-type=application/json"))
+  @RequestMapping(value = Array("/users/{user_id1}"), method = Array(RequestMethod.GET),produces = Array("application/json"))
   @ResponseBody def view_user(@PathVariable user_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -58,11 +61,7 @@ var user1:User = null
 
     }
 
-    val mapper = new ObjectMapper()
-    mapper.registerModule(DefaultScalaModule)
-    val out = new StringWriter
-    mapper.writeValue(out, user1)
-    return out.toString()
+    return user1.view_user()
 
   }
 
