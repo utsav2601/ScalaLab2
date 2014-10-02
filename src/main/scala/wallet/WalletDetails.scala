@@ -4,24 +4,40 @@ import scala.beans.BeanProperty
 import scala.Mutable
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.Map
-import java.util.Date;
+import java.util.Date
+import com.github.nscala_time.time.Imports._
+
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
+import java.lang.Exception
+//remove if not needed
+import scala.collection.JavaConversions._
+import javax.validation.constraints.NotNull
+
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "POST parameter(s) missing")
+case class MissingFieldError(error: String) extends RuntimeException(error)
 
 
-
-case class User(@BeanProperty var email:String, @BeanProperty var password:String)
+case class User( @BeanProperty var email:String ,@BeanProperty var password:String ) 
 {
+def this(){
+  this(null,null)
+  
+}
 
-var user_id:String = null
+var user_id:String = _
 var bank_list = MutableList[BankAccount]()
 var card_list = MutableList[IdCard]()
 var web_list = MutableList[WebLogin]()
-var created_at = new Date()
+var created_at:String = (DateTime.now).toString()
 def view_user() :String=
 {
 
+  //Only for user 
+  //send data in json format
 return """{"user_id":""" + """""""+this.user_id+"""""""+""","""+""""email":"""+"""""""+
 this.email+"""""""+""","""+ """"password":""" +"""""""+this.password+"""""""+ ""","""+
-""""created_at":""" + """""""+this.created_at+""""}"""
+""""created_at":""" + """""""+this.created_at+""""}"""  
 
 
 }
@@ -72,9 +88,7 @@ def getBankAccount():MutableList[BankAccount]=
    
  }
 
-def this()={
-    this(null,null)
-}
+
    
 
 }

@@ -43,7 +43,9 @@ dependencies {
 	
 	compile("com.fasterxml.jackson.core:jackson-databind:2.2.3")
 	compile("com.fasterxml.jackson.module:jackson-module-scala_2.10:2.2.2")
-	
+	compile ("joda-time:joda-time:2.3")
+	compile ("org.joda:joda-convert:1.1")
+	compile("com.github.nscala-time:nscala-time_2.10:0.2.0")
 	
     testCompile("junit:junit")
 }

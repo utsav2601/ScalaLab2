@@ -16,7 +16,8 @@ import java.io.StringWriter
 import scala.Mutable
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.Map
-
+import javax.validation.Valid
+import org.springframework.validation.BindingResult;
 
 @Configuration
 @EnableAutoConfiguration
@@ -31,10 +32,10 @@ var bank_autoId:Int = 40000
   var user_list = MutableList[User]()
  
   //create user
-  @RequestMapping(value = Array("/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"))
-  @ResponseBody def create_user(@RequestBody user: User): String = {
+  @RequestMapping(value = Array("/users"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes=Array("application/json"))
+  @ResponseBody def create_user( @RequestBody user: User): String = {
     //    user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
- 
+
   user.user_id  = "u-"+ user_autoId
  user_autoId = user_autoId+1 
   user_list.+=(user)
@@ -45,8 +46,8 @@ var bank_autoId:Int = 40000
 //    mapper.writeValue(out, user.view_user())
 //    return out.toString()
   return user.view_user();
-   
   }
+  
 
   //View User
   @RequestMapping(value = Array("/users/{user_id1}"), method = Array(RequestMethod.GET),produces = Array("application/json"))
@@ -146,15 +147,10 @@ var user1:User = null
       user1 = find_user(0)
       card = user1.getIdCard()
       //assume card id is unique so there will be only one card id
-    var find_card: MutableList[IdCard] = card.filter(IdCard => IdCard.card_id  == card_id1)
-    var i:Int = card.indexOf(find_card)
-    println(card)
-    println ("index of "+ i )
+  
+  
     var card_list: MutableList[IdCard] = card.filter(IdCard => IdCard.card_id  != card_id1)
-    card.drop(i)
-    println(card)
-    
-println(card_list);
+ 
     user1.replaceCardList(card_list)
     }
 
@@ -215,7 +211,7 @@ var user1:User = null
   }
   
  //delete web logins 
-  @RequestMapping(value = Array("/users/{user_id1}/idcards/{login_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
+  @RequestMapping(value = Array("/users/{user_id1}/weblogins/{login_id1}"), method = Array(RequestMethod.DELETE), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
  def delete_webLogin(@PathVariable user_id1: String, @PathVariable login_id1: String): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
     var find_user: MutableList[User] = user_list.filter(User => User.user_id == user_id1)
@@ -227,10 +223,7 @@ var user1:User = null
       user1 = find_user(0)
       web = user1.getWebLogin()
       //assume card id is unique so there will be only one card id
-    var find_card: MutableList[WebLogin] = web.filter(WebLogin => WebLogin.login_id  == login_id1)
-    var i:Int = web.indexOf(find_card)
-    println(web)
-    println ("index of "+ i )
+   
     var web_list: MutableList[WebLogin] = web.filter(WebLogin => WebLogin.login_id != login_id1)
    
     user1.replaceWebList(web_list)
@@ -240,7 +233,7 @@ var user1:User = null
     mapper.registerModule(DefaultScalaModule)
     val out = new StringWriter
 
-    mapper.writeValue(out,user1.getIdCard())
+    mapper.writeValue(out,user1.getWebLogin())
 
     return out.toString()
 
