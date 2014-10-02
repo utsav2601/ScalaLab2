@@ -166,7 +166,7 @@ var user1:User = null
 
  //create Web Login
  @RequestMapping(value = Array("/users/{user_id1}/weblogins"), method = Array(RequestMethod.POST), headers = Array("content-type=application/json"), consumes = Array("application/json"),produces = Array("application/json"))
- def create_bankAccount(@PathVariable user_id1: String, @RequestBody web: WebLogin): String = {
+ def create_Weblogin(@PathVariable user_id1: String, @RequestBody web: WebLogin): String = {
     //  user_id: Int, email:String, password:String, name: Option[String], created_at:String, updated_at:String
    web.login_id = "l-"+ web_autoId
    web_autoId = web_autoId +1
